@@ -48,16 +48,16 @@ detections = grounding_dino_model.predict_with_classes(
     text_threshold=TEXT_THRESHOLD
 )
 
-# annotate image with detections
-box_annotator = sv.BoxAnnotator()
-labels = [
-    f"{CLASSES[class_id]} {confidence:0.2f}"
-    for _, _, confidence, class_id, _
-    in detections]
-annotated_frame = box_annotator.annotate(scene=image.copy(), detections=detections, labels=labels)
-
-# save the annotated grounding dino image
-cv2.imwrite("demo_dataset/sam/groundingdino_annotated_image.jpg", annotated_frame)
+# # annotate image with detections
+# box_annotator = sv.BoxAnnotator()
+# labels = [
+#     f"{CLASSES[class_id]} {confidence:0.2f}"
+#     for _, _, confidence, class_id, _
+#     in detections]
+# annotated_frame = box_annotator.annotate(scene=image.copy(), detections=detections, labels=labels)
+#
+# # save the annotated grounding dino image
+# cv2.imwrite("demo_dataset/sam/groundingdino_annotated_image.jpg", annotated_frame)
 
 # NMS post process
 print(f"Before NMS: {len(detections.xyxy)} boxes")
