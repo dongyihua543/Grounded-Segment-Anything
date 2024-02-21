@@ -4,6 +4,7 @@ import supervision as sv
 
 import torch
 import torchvision
+from PIL import Image
 
 from hijack import get_tokenlizer_hijack
 
@@ -103,7 +104,17 @@ labels = [
     for _, _, confidence, class_id, _
     in detections]
 annotated_image = mask_annotator.annotate(scene=image.copy(), detections=detections)
+cv2.imwrite("demo_dataset/sam/grounded_sam_annotated_image-mid.jpg", annotated_image)
 annotated_image = box_annotator.annotate(scene=annotated_image, detections=detections, labels=labels)
 
 # save the annotated grounded-sam image
-cv2.imwrite("demo_dataset/sam/grounded_sam_annotated_image.jpg", annotated_image)
+cv2.imwrite("demo_dataset/sam/grounded_sam_annotated_image-ret.jpg", annotated_image)
+
+# mask
+mask = detections.mask.squeeze()
+mask = mask.astype(np.uint8) * 255
+img = Image.fromarray(mask, mode='L')
+img.save("demo_dataset/sam/grounded_sam_annotated_image-mask.jpg")
+
+# segment
+Image.composite(Image.open(SOURCE_IMAGE_PATH).convert("RGB"), Image.new("RGB", img.size, (255, 255, 255)), mask=img).save("demo_dataset/sam/grounded_sam_annotated_image-seg.jpg")
