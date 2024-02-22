@@ -82,6 +82,8 @@ if __name__ == '__main__':
         # load image (BGR)
         image = cv2.imread(im_path)
 
+        start = time.time()
+
         # detect objects
         detections = grounding_dino_model.predict_with_classes(
             image=image,
@@ -121,6 +123,9 @@ if __name__ == '__main__':
             xyxy=detections.xyxy
         )
 
+        end = time.time()
+        print("cost {:.2f} milliseconds".format((end - start) * 1000))
+
         # # annotate image with detections
         # box_annotator = sv.BoxAnnotator()
         # mask_annotator = sv.MaskAnnotator()
@@ -151,3 +156,4 @@ if __name__ == '__main__':
 
             # only one
             break
+
