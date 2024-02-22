@@ -82,8 +82,6 @@ if __name__ == '__main__':
         # load image (BGR)
         image = cv2.imread(im_path)
 
-        start = time.time()
-
         # detect objects
         detections = grounding_dino_model.predict_with_classes(
             image=image,
@@ -115,6 +113,8 @@ if __name__ == '__main__':
         detections.confidence = detections.confidence[nms_idx]
         detections.class_id = detections.class_id[nms_idx]
         print(f"After NMS: {len(detections.xyxy)} boxes")
+
+        start = time.time()
 
         # convert detections to masks
         detections.mask = segment(
