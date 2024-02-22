@@ -136,13 +136,18 @@ if __name__ == '__main__':
         # cv2.imwrite("demo_dataset/sam/grounded_sam_annotated_image-2.jpg", annotated_image)
 
         # mask
-        # detections.mask shape: [b, h, w]
-        mask = detections.mask[0]
-        mask = mask.astype(np.uint8) * 255
-        img = Image.fromarray(mask, mode='L')
-        im_name = im_path.split('/')[-1].split('.')[0]
-        img_path = os.path.join(result_path, im_name + ".png")
-        img.save(img_path)
+        # detections.mask shape: [nums, h, w]
+        nums = np.shape(detections.mask)[0]
+        for k in range(nums):
+            mask = detections.mask[k]
+            mask = mask.astype(np.uint8) * 255
+            img = Image.fromarray(mask, mode='L')
+            im_name = im_path.split('/')[-1].split('.')[0]
+            img_path = os.path.join(result_path, im_name + ".png")
+            img.save(img_path)
 
-        # segment
-        Image.composite(img_, Image.new("RGB", img.size, (255, 255, 255)), mask=img).save(os.path.join(result_path, im_name + "-seg.png"))
+            # segment
+            Image.composite(img_, Image.new("RGB", img.size, (255, 255, 255)), mask=img).save(os.path.join(result_path, im_name + "-seg.png"))
+
+            # only one
+            break
