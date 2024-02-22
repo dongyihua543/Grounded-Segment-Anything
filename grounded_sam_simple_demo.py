@@ -45,7 +45,7 @@ BOX_THRESHOLD = 0.25
 TEXT_THRESHOLD = 0.25
 NMS_THRESHOLD = 0.8
 
-# load image
+# load image (BGR)
 image = cv2.imread(SOURCE_IMAGE_PATH)
 
 # detect objects
@@ -56,16 +56,16 @@ detections = grounding_dino_model.predict_with_classes(
     text_threshold=TEXT_THRESHOLD
 )
 
-# # annotate image with detections
-# box_annotator = sv.BoxAnnotator()
-# labels = [
-#     f"{CLASSES[class_id]} {confidence:0.2f}"
-#     for _, _, confidence, class_id, _
-#     in detections]
-# annotated_frame = box_annotator.annotate(scene=image.copy(), detections=detections, labels=labels)
-#
-# # save the annotated grounding dino image
-# cv2.imwrite("demo_dataset/sam/groundingdino_annotated_image.jpg", annotated_frame)
+# annotate image with detections
+box_annotator = sv.BoxAnnotator()
+labels = [
+    f"{CLASSES[class_id]} {confidence:0.2f}"
+    for _, _, confidence, class_id, _
+    in detections]
+annotated_frame = box_annotator.annotate(scene=image.copy(), detections=detections, labels=labels)
+
+# save the annotated grounding dino image
+cv2.imwrite("demo_dataset/sam/groundingdino_annotated_image.jpg", annotated_frame)
 
 # NMS post process
 print(f"Before NMS: {len(detections.xyxy)} boxes")
@@ -111,11 +111,11 @@ labels = [
     for _, _, confidence, class_id, _
     in detections]
 annotated_image = mask_annotator.annotate(scene=image.copy(), detections=detections)
-cv2.imwrite("demo_dataset/sam/grounded_sam_annotated_image-mid.jpg", annotated_image)
-annotated_image = box_annotator.annotate(scene=annotated_image, detections=detections, labels=labels)
+cv2.imwrite("demo_dataset/sam/grounded_sam_annotated_image-1.jpg", annotated_image)
 
+annotated_image = box_annotator.annotate(scene=annotated_image, detections=detections, labels=labels)
 # save the annotated grounded-sam image
-cv2.imwrite("demo_dataset/sam/grounded_sam_annotated_image-ret.jpg", annotated_image)
+cv2.imwrite("demo_dataset/sam/grounded_sam_annotated_image-2.jpg", annotated_image)
 
 # mask
 # detections.mask shape: [b, h, w]
