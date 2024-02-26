@@ -64,8 +64,11 @@ if __name__ == '__main__':
     # SOURCE_IMAGE_PATH = "./assets/toy_order_005.jpg"
     # CLASSES = ["toy"]
 
-    dataset_path = "./assets/demo_datasets/your_dataset"  # Your dataset path
-    result_path = "./assets/demo_datasets/your_dataset_result"  # The folder path that you want to save the results
+    # dataset_path = "./assets/demo_datasets/your_dataset"  # Your dataset path
+    # result_path = "./assets/demo_datasets/your_dataset_result"  # The folder path that you want to save the results
+
+    dataset_path = "./assets/demo_datasets/toy_2024-02-03/image"  # Your dataset path
+    result_path = "./assets/demo_datasets/toy_2024-02-03/image"  # The folder path that you want to save the results
 
     im_list = glob(dataset_path + "/*.[jJ][pP][gG]") + glob(dataset_path + "/*.[jJ][pP][eE][gG]") + \
               glob(dataset_path + "/*.[pP][nN][gG]") + glob(dataset_path + "/*.[bB][mM][pP]") + \
@@ -156,4 +159,3 @@ if __name__ == '__main__':
 
             # only one
             break
-
